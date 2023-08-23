@@ -1,0 +1,65 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background: #111;
+    color: #eee;
+    padding: 5px;
+    font-family: sans-serif;
+}
+
+.container {
+    margin: 0 auto;
+    max-width: 1200px;
+}
+
+.header {
+    padding: 10px;
+}
+
+.header h1 {
+    display: inline-block;
+    margin: 0;
+    font-size: 1.5em;
+    font-weight: normal;
+}
+
+.header h2 {
+    float: right;
+    display: inline-block;
+    margin: 0;
+    font-size: 1em;
+    font-weight: normal;
+}
+
+.main {
+    display: flex;
+}
+
+.input,
+.output {
+    width: 50%;
+    padding: 10px;
+}
+
+/* input */
+
+input[type="file"] {
+    display: none;
+}
+
+#file {
+    width: 100%;
+    height: 150px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px dashed #ccc;
+    cursor: pointer;
+}
+
+#file:hover {
+    border-color: #778cff;
+}
