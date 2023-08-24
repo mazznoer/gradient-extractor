@@ -39,8 +39,30 @@
         e.preventDefault()
     });
 
-    $("#extract").addEventListener('click', () => {
-        // TODO
+    $('#extract').addEventListener('click', () => {
+        const canvas = $('#image canvas');
+
+        if (canvas == null || points.length == 0) {
+            return;
+        }
+
+        const ctx = canvas.getContext('2d');
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+        // Get colors along lines
+        const colors = [];
+        const path = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
+        path.setAttribute('points', points.map(([x, y]) => `${x},${y}`).join(' '));
+        const length = path.getTotalLength();
+        const sample = Math.min(Math.floor(length), 500);
+        const part = length / sample;
+        let cur = 0;
+        while (cur <= length) {
+            const pos = path.getPointAtLength(cur);
+            cur += part;
+            colors.push(ctx.getImageData(pos.x, pos.y, 1, 1).data);
+        }
+        console.log(colors.length, colors[0]);
     });
 
     function proses_img(str) {
