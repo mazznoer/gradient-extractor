@@ -63,3 +63,25 @@ input[type="file"] {
 #file:hover {
     border-color: #778cff;
 }
+
+/* input image */
+
+#image {
+    position: relative;
+}
+
+#image canvas {
+    width: 100%;
+    height: auto;
+}
+
+#image canvas:nth-child(1) {
+    background: conic-gradient(#111 25%, #666 0 50%, #111 0 75%, #666 0) top left / 20px 20px repeat;
+}
+
+#image canvas:nth-child(2) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    outline: 0px solid red;
+}
