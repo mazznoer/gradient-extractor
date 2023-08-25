@@ -62,7 +62,11 @@
             cur += part;
             colors.push(ctx.getImageData(pos.x, pos.y, 1, 1).data);
         }
-        console.log(colors.length, colors[0]);
+        console.log(colors.length);
+
+        const [pos, cols] = GXLib.simplifyColors(colors);
+        console.log(pos);
+        console.log(cols);
     });
 
     function proses_img(str) {
