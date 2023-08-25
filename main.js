@@ -1,3 +1,19 @@
+/* This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *
+ * Copyright (C) 2023 Nor Khasyatillah
+ */
+
 (function() {
 
     'use strict';
@@ -67,7 +83,52 @@
         const [pos, cols] = GXLib.simplifyColors(colors);
         console.log(pos);
         console.log(cols);
+
+        const cols2 = '[' + cols.map(c => '"' + toHex(c) + '"').join(', ') + ']';
+        const pos2 = '[' + pos.map(f => {
+            return parseFloat(f.toFixed(4));
+        }).join(', ') + ']';
+
+        const css = toCss(pos, cols);
+
+        console.log(pos2);
+        console.log(cols2);
+        console.log(css);
+
+        const div = $('#gradient');
+        div.style.background = `linear-gradient(to right, ${css})`;
+
+        const pre = $('.output pre');
+        pre.innerHTML = `--- positions\n${pos2}\n\n--- colors\n${cols2}\n\n--- css\nlinear-gradient(${css})`;
     });
+
+    function toHex(rgba) {
+        let hex = '#';
+        hex += rgba[0].toString(16).padStart(2, '0');
+        hex += rgba[1].toString(16).padStart(2, '0');
+        hex += rgba[2].toString(16).padStart(2, '0');
+        if (rgba[3] < 255) {
+            hex += rgba[3].toString(16).padStart(2, '0');
+        }
+        return hex;
+    }
+
+    function toCss(positions, colors) {
+        const fmt = t => parseFloat(t.toFixed(2));
+        const last = colors.length - 1;
+        let res = '';
+
+        for (const [i, pos] of positions.entries()) {
+            let col = toHex(colors[i]);
+            res += `${col} ${fmt(pos*100)}%`;
+
+            if (i < last) {
+                res += ', ';
+            }
+        }
+
+        return res;
+    }
 
     function proses_img(str) {
         image.innerHTML = '';

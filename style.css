@@ -85,3 +85,9 @@ input[type="file"] {
     left: 0;
     outline: 0px solid red;
 }
+
+/* output */
+
+#gradient {
+    height: 80px;
+}
