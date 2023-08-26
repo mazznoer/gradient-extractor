@@ -102,6 +102,17 @@
         pre.innerHTML = `--- positions\n${pos2}\n\n--- colors\n${cols2}\n\n--- css\nlinear-gradient(${css})`;
     });
 
+    $('#reset').addEventListener('click', () => {
+        let canvasImg = $('#image canvas');
+        if (canvasImg == null) {
+            return;
+        }
+        let canvas = canvasImg.nextSibling;
+        let ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        points.length = 0;
+    });
+
     function toHex(rgba) {
         let hex = '#';
         hex += rgba[0].toString(16).padStart(2, '0');
