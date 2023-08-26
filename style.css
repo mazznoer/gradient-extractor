@@ -43,7 +43,27 @@ body {
     padding: 10px;
 }
 
+/* button */
+
+button {
+    margin: 3px 0;
+    color: #cad5f7;
+    background: #282b4a;
+    border: 1px solid #44478e;
+    padding: 3px 10px;
+    border-radius: 4px;
+}
+
+button:hover {
+    background: #1c2f68;
+    border: 1px solid #586ace;
+}
+
 /* input */
+
+#options {
+    display: none;
+}
 
 input[type="file"] {
     display: none;
@@ -88,6 +108,34 @@ input[type="file"] {
 
 /* output */
 
+#result {
+    display: none;
+}
+
 #gradient {
     height: 80px;
+}
+
+.text-widget {
+    margin: 5px 0;
+}
+
+.text-widget span {}
+
+.text-widget button {
+    float: right;
+}
+
+textarea {
+    width: 100%;
+    height: auto;
+    background: #222;
+    border: 1px solid #313131;
+    color: #eee;
+    overflow-y: hidden;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: #555;
 }

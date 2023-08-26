@@ -19,9 +19,11 @@
 
         <div class="main">
             <div class="input">
-                <div id='image'></div>
-                <button id="reset">Clear Line</button>
-                <button id="extract">Extract</button>
+                <div id="image"></div>
+                <div id="options">
+                    <button id="reset">Clear Line</button>
+                    <button id="extract">Extract</button>
+                </div><!-- #options -->
                 <label id="file">
                     <input type="file" accept="image/*" />
                     Drop Image File Here
@@ -29,13 +31,22 @@
             </div><!-- .input -->
 
             <div class="output">
-                <div id="gradient"></div>
-                <pre></pre>
+                <div id="result">
+                    <div id="gradient"></div>
+                </div>
+                <div id="texts"></div>
             </div><!-- .output -->
         </div><!-- .main -->
 
         <div class="footer">&copy; 2023 Nor Khasyatillah</div>
     </div><!-- .container -->
+
+    <template id="template-text-widget">
+        <div class="text-widget">
+            <span></span><button>Copy</button>
+            <textarea spellcheck="false" readonly="true" wrap="off"></textarea>
+        </div>
+    </template>
 
     <script src="https://unpkg.com/simplify-js@1.2.4/simplify.js"></script>
     <script src="lib.js"></script>

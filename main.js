@@ -19,8 +19,17 @@
     'use strict';
 
     const $ = document.querySelector.bind(document);
+    const $$ = document.querySelectorAll.bind(document);
     const image = $('#image');
+    const template = $("#template-text-widget");
     const points = [];
+
+    function textWidget(content, title = "") {
+        const elm = template.content.cloneNode(true);
+        elm.querySelector("span").innerText = title;
+        elm.querySelector("textarea").value = content;
+        return elm;
+    }
 
     $('#file input').addEventListener('change', e => {
         if (!e.target.files[0]) {
@@ -98,8 +107,20 @@
         const div = $('#gradient');
         div.style.background = `linear-gradient(to right, ${css})`;
 
-        const pre = $('.output pre');
-        pre.innerHTML = `--- positions\n${pos2}\n\n--- colors\n${cols2}\n\n--- css\nlinear-gradient(${css})`;
+        const el = $('#texts');
+        el.innerHTML = '';
+        el.appendChild(textWidget(cols2, 'Colors'));
+        el.appendChild(textWidget(pos2, 'Positions'));
+        el.appendChild(textWidget(`linear-gradient(${css})`, 'CSS'));
+
+        $('#result').style.display = 'block';
+
+        $$('.output .text-widget button').forEach(el => el.addEventListener('click', e => {
+            const nextElm = e.target.nextElementSibling;
+            if (nextElm != null) {
+                GXLib.copy(nextElm.value);
+            }
+        }));
     });
 
     $('#reset').addEventListener('click', () => {
@@ -189,6 +210,7 @@
         });
 
         img.src = str;
+        $('#options').style.display = 'block';
     }
 
     function read_file(f) {

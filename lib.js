@@ -116,8 +116,13 @@
         return res;
     }
 
+    async function copy(text) {
+        await navigator.clipboard.writeText(text);
+    }
+
     window.GXLib = {
-        simplifyColors
+        simplifyColors,
+        copy
     };
 
 })();
