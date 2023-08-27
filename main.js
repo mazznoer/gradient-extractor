@@ -162,7 +162,14 @@
         return res;
     }
 
+    let controller = null;
+
     function proses_img(str) {
+        if (controller !== null) {
+            controller.abort();
+            points.length = 0;
+        }
+
         image.innerHTML = '';
         const img = document.createElement('img');
 
@@ -180,6 +187,8 @@
             canvas.height = imgCanvas.height;
             const ctx = canvas.getContext('2d');
             image.appendChild(canvas);
+
+            controller = new AbortController();
 
             canvas.addEventListener('click', event => {
                 const bounds = event.target.getBoundingClientRect();
@@ -206,6 +215,8 @@
                     ctx.lineTo(x, y);
                     ctx.stroke();
                 }
+            }, {
+                signal: controller.signal
             });
         });
 
