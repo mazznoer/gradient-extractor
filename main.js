@@ -22,7 +22,11 @@
     const $$ = document.querySelectorAll.bind(document);
     const image = $('#image');
     const template = $("#template-text-widget");
+    const consoleInput = new GXLib.Console($('#console-input'));
+    const consoleOutput = new GXLib.Console($('#console-output'));
     const points = [];
+
+    consoleInput.log('Select image file.');
 
     function textWidget(content, title = "") {
         const elm = template.content.cloneNode(true);
@@ -92,6 +96,7 @@
         const [pos, cols] = GXLib.simplifyColors(colors);
         console.log(pos);
         console.log(cols);
+        consoleOutput.log(`${cols.length} color stops from ${colors.length} sample colors.`);
 
         const cols2 = '[' + cols.map(c => '"' + toHex(c) + '"').join(', ') + ']';
         const pos2 = '[' + pos.map(f => {
@@ -132,6 +137,7 @@
         let ctx = canvas.getContext('2d');
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         points.length = 0;
+        consoleInput.log("Click on the image to draw line");
     });
 
     function toHex(rgba) {
@@ -214,6 +220,8 @@
                     ctx.moveTo(prev[0], prev[1]);
                     ctx.lineTo(x, y);
                     ctx.stroke();
+
+                    consoleInput.log('Click "Extract" to extract the gradient.');
                 }
             }, {
                 signal: controller.signal
@@ -222,6 +230,7 @@
 
         img.src = str;
         $('#options').style.display = 'block';
+        consoleInput.log("Click on the image to draw line");
     }
 
     function read_file(f) {

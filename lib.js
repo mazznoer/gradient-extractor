@@ -120,9 +120,28 @@
         await navigator.clipboard.writeText(text);
     }
 
+    class Console {
+        constructor(el) {
+            this.el = el;
+        }
+
+        clear() {
+            this.el.innerHTML = '';
+        }
+
+        log(msg) {
+            this.el.innerHTML = msg;
+        }
+
+        error(msg) {
+            this.el.innerHTML = `<span class='error'>${msg}</span>`;
+        }
+    }
+
     window.GXLib = {
         simplifyColors,
-        copy
+        copy,
+        Console,
     };
 
 })();
