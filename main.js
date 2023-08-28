@@ -82,7 +82,8 @@
         const colors = [];
         const path = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
         path.setAttribute('points', points.map(([x, y]) => `${x},${y}`).join(' '));
-        const length = path.getTotalLength();
+        image.appendChild(path);
+        const length = lineTotalLength();
         const sample = Math.min(Math.floor(length), 500);
         const part = length / sample;
         let cur = 0;
@@ -143,7 +144,9 @@
             const imgCanvas = document.createElement('canvas');
             imgCanvas.width = img.width;
             imgCanvas.height = img.height;
-            imgCanvas.getContext('2d').drawImage(img, 0, 0);
+            imgCanvas.getContext('2d', {
+                willReadFrequently: true
+            }).drawImage(img, 0, 0);
             image.appendChild(imgCanvas);
 
             // Canvas for drawing the lines
@@ -190,6 +193,18 @@
         img.src = str;
         $('#options').style.display = 'block';
         consoleInput.log("Click on the image to draw line");
+    }
+
+    function dist(p1, p2) {
+        return Math.sqrt((p2[0] - p1[0]) ** 2 + (p2[1] - p1[1]) ** 2);
+    }
+
+    function lineTotalLength() {
+        let length = 0;
+        for (let i = 0, n = points.length - 1; i < n; i++) {
+            length += dist(points[i], points[i + 1]);
+        }
+        return length;
     }
 
     function read_file(f) {
