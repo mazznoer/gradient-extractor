@@ -116,6 +116,54 @@
         return res;
     }
 
+    class Gradient {
+        constructor(colors, positions) {
+            this.colors = colors;
+            this.positions = positions;
+        }
+
+        colorsStr() {
+            return '[' + this.colors.map(c => '"' + toHex(c) + '"').join(', ') + ']';
+        }
+
+        positionsStr() {
+            return '[' + this.positions.map(f =>
+                parseFloat(f.toFixed(4))
+            ).join(', ') + ']';
+        }
+
+        css() {
+            return toCss(this.colors, this.positions);
+        }
+    }
+
+    function toHex(rgba) {
+        let hex = '#';
+        hex += rgba[0].toString(16).padStart(2, '0');
+        hex += rgba[1].toString(16).padStart(2, '0');
+        hex += rgba[2].toString(16).padStart(2, '0');
+        if (rgba[3] < 255) {
+            hex += rgba[3].toString(16).padStart(2, '0');
+        }
+        return hex;
+    }
+
+    function toCss(colors, positions) {
+        const fmt = t => parseFloat(t.toFixed(2));
+        const last = colors.length - 1;
+        let res = '';
+
+        for (const [i, pos] of positions.entries()) {
+            res += `${toHex(colors[i])} ${fmt(pos*100)}%`;
+
+            if (i < last) {
+                res += ', ';
+            }
+        }
+
+        return res;
+    }
+
     async function copy(text) {
         await navigator.clipboard.writeText(text);
     }
@@ -140,6 +188,7 @@
 
     window.GXLib = {
         simplifyColors,
+        Gradient,
         copy,
         Console,
     };

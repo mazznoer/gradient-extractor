@@ -91,32 +91,19 @@
             cur += part;
             colors.push(ctx.getImageData(pos.x, pos.y, 1, 1).data);
         }
-        console.log(colors.length);
 
         const [pos, cols] = GXLib.simplifyColors(colors);
-        console.log(pos);
-        console.log(cols);
+        const gradient = new GXLib.Gradient(cols, pos);
         consoleOutput.log(`${cols.length} color stops from ${colors.length} sample colors.`);
 
-        const cols2 = '[' + cols.map(c => '"' + toHex(c) + '"').join(', ') + ']';
-        const pos2 = '[' + pos.map(f => {
-            return parseFloat(f.toFixed(4));
-        }).join(', ') + ']';
-
-        const css = toCss(pos, cols);
-
-        console.log(pos2);
-        console.log(cols2);
-        console.log(css);
-
         const div = $('#gradient');
-        div.style.background = `linear-gradient(to right, ${css})`;
+        div.style.background = `linear-gradient(to right, ${gradient.css()})`;
 
         const el = $('#texts');
         el.innerHTML = '';
-        el.appendChild(textWidget(cols2, 'Colors'));
-        el.appendChild(textWidget(pos2, 'Positions'));
-        el.appendChild(textWidget(`linear-gradient(${css})`, 'CSS'));
+        el.appendChild(textWidget(gradient.colorsStr(), 'Colors'));
+        el.appendChild(textWidget(gradient.positionsStr(), 'Positions'));
+        el.appendChild(textWidget(`linear-gradient(${gradient.css()})`, 'CSS'));
 
         $('#result').style.display = 'block';
 
@@ -139,34 +126,6 @@
         points.length = 0;
         consoleInput.log("Click on the image to draw line");
     });
-
-    function toHex(rgba) {
-        let hex = '#';
-        hex += rgba[0].toString(16).padStart(2, '0');
-        hex += rgba[1].toString(16).padStart(2, '0');
-        hex += rgba[2].toString(16).padStart(2, '0');
-        if (rgba[3] < 255) {
-            hex += rgba[3].toString(16).padStart(2, '0');
-        }
-        return hex;
-    }
-
-    function toCss(positions, colors) {
-        const fmt = t => parseFloat(t.toFixed(2));
-        const last = colors.length - 1;
-        let res = '';
-
-        for (const [i, pos] of positions.entries()) {
-            let col = toHex(colors[i]);
-            res += `${col} ${fmt(pos*100)}%`;
-
-            if (i < last) {
-                res += ', ';
-            }
-        }
-
-        return res;
-    }
 
     let controller = null;
 
