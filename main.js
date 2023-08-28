@@ -105,6 +105,7 @@
         el.appendChild(textWidget(gradient.colorsStr(), 'Colors'));
         el.appendChild(textWidget(gradient.positionsStr(), 'Positions'));
         el.appendChild(textWidget(`linear-gradient(${gradient.css()})`, 'CSS'));
+        el.appendChild(textWidget(gradient.svg(), 'SVG'));
 
         $('#result').style.display = 'block';
 
@@ -114,6 +115,10 @@
                 GXLib.copy(nextElm.value);
             }
         }));
+
+        $$('.output .text-widget textarea').forEach(el => {
+            el.style.height = el.scrollHeight + 'px';
+        });
     });
 
     $('#reset').addEventListener('click', () => {
