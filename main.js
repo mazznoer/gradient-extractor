@@ -142,6 +142,13 @@
         GXLib.download(blob, 'gradient.svg');
     });
 
+    $('#save-ggr').addEventListener('click', () => {
+        const blob = new Blob([gradient.ggr()], {
+            type: 'text/plain'
+        });
+        GXLib.download(blob, 'gradient.ggr');
+    });
+
     let controller = null;
 
     function proses_img(str) {

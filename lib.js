@@ -156,6 +156,10 @@
         svgFull() {
             return svgStart + this.svg() + svgEnd;
         }
+
+        ggr() {
+            return toGgr(this.colors, this.positions);
+        }
     }
 
     function toHex(rgba) {
@@ -192,6 +196,35 @@
 
         for (const [i, pos] of positions.entries()) {
             res += `<stop offset="${fmt(pos)}" stop-color="${toHex(colors[i])}" />`;
+            if (i < last) {
+                res += '\n';
+            }
+        }
+
+        return res;
+    }
+
+    function toGgr(colors, positions, name = "My Gradient") {
+        const fmt = t => t.toFixed(6);
+        const normColor = c => [c[0] / 255, c[1] / 255, c[2] / 255, c[3] / 255];
+        const last = colors.length - 2;
+        let res = `GIMP Gradient\nName: ${name}\n${colors.length-1}\n`;
+
+        for (let i = 0, n = colors.length - 1; i < n; i++) {
+            const pos_a = positions[i];
+            const pos_b = positions[i + 1];
+            const pos_m = pos_a + (pos_b - pos_a) / 2;
+
+            res += `${fmt(pos_a)} ${fmt(pos_m)} ${fmt(pos_b)} `;
+
+            let [r, g, b, a] = normColor(colors[i]);
+            res += `${fmt(r)} ${fmt(g)} ${fmt(b)} ${fmt(a)} `;
+
+            [r, g, b, a] = normColor(colors[i + 1]);
+            res += `${fmt(r)} ${fmt(g)} ${fmt(b)} ${fmt(a)} `;
+
+            res += '0 0 0 0';
+
             if (i < last) {
                 res += '\n';
             }
