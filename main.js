@@ -25,6 +25,7 @@
     const consoleInput = new GXLib.Console($('#console-input'));
     const consoleOutput = new GXLib.Console($('#console-output'));
     const points = [];
+    const gradient = new GXLib.Gradient([], []);
 
     consoleInput.log('Select image file.');
 
@@ -94,7 +95,8 @@
         }
 
         const [pos, cols] = GXLib.simplifyColors(colors);
-        const gradient = new GXLib.Gradient(cols, pos);
+        gradient.colors = cols;
+        gradient.positions = pos;
         consoleOutput.log(`${cols.length} color stops from ${colors.length} sample colors.`);
 
         const div = $('#gradient');
@@ -131,6 +133,13 @@
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         points.length = 0;
         consoleInput.log("Click on the image to draw line");
+    });
+
+    $('#save-svg').addEventListener('click', () => {
+        const blob = new Blob([gradient.svgFull()], {
+            type: 'image/svg+xml;charset=utf-8'
+        });
+        GXLib.download(blob, 'gradient.svg');
     });
 
     let controller = null;

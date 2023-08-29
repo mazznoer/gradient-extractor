@@ -116,6 +116,19 @@
         return res;
     }
 
+    const svgStart = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100">
+<title>SVG Gradient</title>
+<!-- Generated using https://github.com/mazznoer/gradient-extractor -->
+<defs>
+<linearGradient id="gradient" x1="0" y1="0" x2="1" y2="0">
+`;
+
+    const svgEnd = `
+</linearGradient>
+</defs>
+<rect x="0" y="0" width="1000" height="100" fill="url(#gradient)" />
+</svg>`;
+
     class Gradient {
         constructor(colors, positions) {
             this.colors = colors;
@@ -138,6 +151,10 @@
 
         svg() {
             return toSvg(this.colors, this.positions);
+        }
+
+        svgFull() {
+            return svgStart + this.svg() + svgEnd;
         }
     }
 
@@ -187,6 +204,15 @@
         await navigator.clipboard.writeText(text);
     }
 
+    function download(blob, filename) {
+        const link = document.createElement('a');
+        const url = URL.createObjectURL(blob);
+        link.setAttribute('href', url);
+        link.setAttribute('download', filename);
+        link.click();
+        URL.revokeObjectURL(url);
+    }
+
     class Console {
         constructor(el) {
             this.el = el;
@@ -209,6 +235,7 @@
         simplifyColors,
         Gradient,
         copy,
+        download,
         Console,
     };
 
