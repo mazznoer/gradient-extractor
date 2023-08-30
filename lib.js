@@ -24,15 +24,15 @@
 
     function simplifyColors(colors, tolerance = 3) {
         const xs = [];
-        for (let i = 0, n = colors.length; i < n; i++) {
-            xs.push((i * 1000) / (n - 1));
+        for (let i = 0, n = colors.length - 1; i <= n; i++) {
+            xs.push((i * 1000) / n);
         }
         console.log(xs.length, xs[0], xs[xs.length - 1]);
 
-        let c1 = [];
-        let c2 = [];
-        let c3 = [];
-        let c4 = [];
+        const c1 = [];
+        const c2 = [];
+        const c3 = [];
+        const c4 = [];
 
         for (const [r, g, b, a] of colors) {
             c1.push(r / 255 * 100);
@@ -49,21 +49,16 @@
             return simplify(points, tolerance, true).map(p => p.x);
         };
 
-        let rpos = smplfy(c1);
-        let gpos = smplfy(c2);
-        let bpos = smplfy(c3);
-        let apos = smplfy(c4);
-
-        let rgbaPos = mergeSorted(mergeSorted(rpos, gpos), mergeSorted(bpos, apos));
-        let pos = [];
-        let colors2 = [];
+        const rgbaPos = mergeSorted(mergeSorted(smplfy(c1), smplfy(c2)), mergeSorted(smplfy(c3), smplfy(c4)));
+        const pos = [];
+        const colors2 = [];
 
         for (const v of rgbaPos) {
             pos.push(v / 1000);
 
-            for (const [j, t] of xs.entries()) {
+            for (const [i, t] of xs.entries()) {
                 if (Math.abs(v - t) < EPSILON) {
-                    colors2.push(colors[j]);
+                    colors2.push(colors[i]);
                     break;
                 }
             }
