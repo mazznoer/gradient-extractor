@@ -108,9 +108,15 @@ input[type="file"] {
     position: relative;
 }
 
-#image canvas {
+#image canvas,
+.output canvas {
     width: 100%;
     height: auto;
+}
+
+.output canvas {
+    background: #222;
+    margin-top: 7px;
 }
 
 #image canvas:nth-child(1) {
@@ -125,6 +131,10 @@ input[type="file"] {
 }
 
 /* output */
+
+#console-output {
+    margin: 0 0 7px 0;
+}
 
 #result {
     display: none;

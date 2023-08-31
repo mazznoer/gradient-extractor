@@ -99,8 +99,11 @@
         gradient.positions = pos;
         consoleOutput.log(`${cols.length} color stops from ${colors.length} sample colors.`);
 
+        $('#result').style.display = 'block';
+
         const div = $('#gradient');
         div.style.background = `linear-gradient(to right, ${gradient.css()})`;
+        const bounds = div.getBoundingClientRect();
 
         const el = $('#texts');
         el.innerHTML = '';
@@ -109,7 +112,11 @@
         el.appendChild(textWidget(`linear-gradient(${gradient.css()})`, 'CSS'));
         el.appendChild(textWidget(gradient.svg(), 'SVG'));
 
-        $('#result').style.display = 'block';
+        const div2 = $("#stops-pos");
+        div2.innerHTML = '';
+        const stopsPos = gradient.canvasStopsPos(bounds.width, bounds.width * 0.04);
+        stopsPos.setAttribute('title', 'Color stop positions');
+        div2.appendChild(stopsPos);
 
         $$('.output .text-widget button').forEach(el => el.addEventListener('click', e => {
             const nextElm = e.target.nextElementSibling;

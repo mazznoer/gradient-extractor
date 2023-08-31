@@ -155,6 +155,10 @@
         ggr() {
             return toGgr(this.colors, this.positions);
         }
+
+        canvasStopsPos(width, height) {
+            return drawStops(this.positions, width, height);
+        }
     }
 
     function toHex(rgba) {
@@ -226,6 +230,25 @@
         }
 
         return res;
+    }
+
+    function drawStops(positions, width, height) {
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+
+        // Draw color stop positions
+        ctx.strokeStyle = "#777";
+        ctx.lineWidth = 1;
+        for (const t of positions) {
+            const x = 1 + t * (width - 2);
+            ctx.beginPath();
+            ctx.moveTo(x, 0);
+            ctx.lineTo(x, height);
+            ctx.stroke();
+        }
+        return canvas;
     }
 
     async function copy(text) {
