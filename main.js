@@ -72,7 +72,13 @@
     $('#extract').addEventListener('click', () => {
         const canvas = $('#image canvas');
 
-        if (canvas == null || points.length == 0) {
+        if (canvas == null) {
+            consoleOutput.error('Provide an image first.');
+            return;
+        }
+
+        if (points.length < 2) {
+            consoleOutput.error('Clicks on the image to draw line.');
             return;
         }
 
