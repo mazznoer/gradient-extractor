@@ -156,6 +156,10 @@
             return toGgr(this.colors, this.positions);
         }
 
+        canvasGradient(width, height) {
+            return drawGradient(this.colors, this.positions, width, height);
+        }
+
         canvasStopsPos(width, height) {
             return drawStops(this.positions, width, height);
         }
@@ -230,6 +234,20 @@
         }
 
         return res;
+    }
+
+    function drawGradient(colors, positions, width, height) {
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        const gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
+        for (const [i, t] of positions.entries()) {
+            gradient.addColorStop(t, toHex(colors[i]));
+        }
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        return canvas;
     }
 
     function drawStops(positions, width, height) {

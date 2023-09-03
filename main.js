@@ -162,6 +162,11 @@
         GXLib.download(blob, 'gradient.ggr');
     });
 
+    $('#save-png').addEventListener('click', () => {
+        const canvas = gradient.canvasGradient(1200, 150);
+        canvas.toBlob(blob => GXLib.download(blob, 'gradient.png'), 'image/png', 0.85);
+    });
+
     let controller = null;
 
     function proses_img(str) {
