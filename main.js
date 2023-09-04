@@ -116,7 +116,7 @@
         el.appendChild(textWidget(gradient.colorsStr(), 'Colors'));
         el.appendChild(textWidget(gradient.positionsStr(), 'Positions'));
         el.appendChild(textWidget(`linear-gradient(${gradient.css()})`, 'CSS'));
-        el.appendChild(textWidget(gradient.svg(), 'SVG'));
+        el.appendChild(textWidget(`<linearGradient id="gradient">\n${gradient.svg()}\n</linearGradient>`, 'SVG'));
 
         const div2 = $("#stops-pos");
         div2.innerHTML = '';

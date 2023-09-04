@@ -198,7 +198,7 @@
         let res = '';
 
         for (const [i, pos] of positions.entries()) {
-            res += `<stop offset="${fmt(pos)}" stop-color="${toHex(colors[i])}" />`;
+            res += `  <stop offset="${fmt(pos)}" stop-color="${toHex(colors[i])}" />`;
             if (i < last) {
                 res += '\n';
             }
